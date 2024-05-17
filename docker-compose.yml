@@ -14,20 +14,8 @@ services:
     depends_on:
       - app
       - db
-  vue:
-    build:
-      context: ./landing
-      dockerfile: Dockerfile
-    image: my-laravel-node
-    container_name: my-laravel-node
-    ports:
-    - "3000:3000"
-    restart: unless-stopped
-    working_dir: /var/www
-    volumes:
-      - ./:/var/www
-      - /var/www/node_modules
-    
+      - vue
+
   #Database Service
   # db:
   #   image : mysql
@@ -63,6 +51,16 @@ services:
       - "9000:9000"
     working_dir: /var/www
 
+  # Application Service
+  vue:
+    container_name: landing
+    build: 
+      context: ./landing
+      dockerfile: Dockerfile
+    volumes:
+      - ./landing:/app
+    ports:
+      - "7500:7500"
   #phpMyAdmin Service
   # phpmyadmin:
   #   image: phpmyadmin/phpmyadmin

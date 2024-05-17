@@ -1,20 +1,19 @@
-# Use a Node.js base image with a specified version
-FROM node:latest
+# Usa la imagen oficial de Node como base
+FROM node:lts-alpine
 
-# Set working directory inside the container
-WORKDIR /var/www
+RUN mkdir /app
+# Establece el directorio de trabajo en /app
+WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# Copia el archivo package.json y yarn.lock al directorio de trabajo
+COPY ./package*.json .
 
-# Install dependencies
+# Instala las dependencias del proyecto
 RUN npm install
 
-# Copy all project files to the working directory
-COPY . .
+EXPOSE 7500
 
-# Expose port 3000 (the default port Vite runs on)
-EXPOSE 3000
+# Compila la aplicación Vue.js para producción
+CMD ["npm", "run", "serve", "--", "--port", "7500"]
 
-# Command to run the development server
-CMD ["npm", "run", "dev"]
+# Copia el resto de los archivos al directorio de trabajo
